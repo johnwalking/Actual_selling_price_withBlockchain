@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>DApp: House</title>
+    <style>
+        .flex {
+            display: flex;
+        }
+        
+        .item {
+            flex: 1;
+            padding: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex">
+        <div class="item">
+            <h1>房價實價登入</h1>
+            <hr>
+        </div>
+    </div>
+
+    <div class="flex">
+        <div class="item">
+            <h2>部署合約</h2>
+            <p>
+                <h3>帳號登入</h3>
+                <h4>帳號: </h4>
+                <label for="AccountAddress">輸入帳號</label>
+                <select names="AccountAddress" id="AccountAddress"></select>
+                <br>
+                <button id="AccountAddressConfirmBut">確認</button>
+                <button id="AccountAddressCancelBut">取消</button>
+                <p>
+                    <label>合約地址</label><br>
+                    <input id="DeployContractAddress" type="text" placeholder="請輸入既有合約位置">
+                    <br>
+                    <button id="DeployedOldContractBut">載入已有智能合約</button>
+                    <button id="DeployNewContractBut">發布新合約</button>
+                    <hr>
+                </p>
+        </div>
+    </div>
+
+    <div class="flex">
+        <div class="item">
+            <h2>登入交易資訊</h2>
+            <p>
+                <h3 style="color: red">* 已登入資料只有合約發布者可更改，請小心輸入</h3>
+                <h3 style="color:red">* 資料登入者即為房子新擁有者</h3><br>
+                <p>
+                    <label>房屋擁有者</label><br>
+                    <input id="HouseOwnerAddressInput" type="text" placeholder="請輸入房子擁有者地址" value="">
+                </p>
+                <p>
+                    <label>房屋資訊</label><br>
+                    <label>交易總價</label>
+                    <input id="HouseTotalPriceInput" type="number" placeholder="輸入交易總價"><br>
+                    <label>交易總坪數</label>
+                    <input id="HouseTotalSizeInput" type="number" placeholder="輸入交易總坪數"><br>
+                    <label>屋齡</label>
+                    <input id="HouseAgeInput" type="number" placeholder="輸入屋齡"><br>
+                    <label>單評價格</label>
+                    <input id="HousePricePerSizeInput" type="text" placeholder="輸入單評價格"><br>
+                    <label>房子類別</label>
+                    <input id="HouseTypeInput" type="text" placeholder="輸入房子類別"><br>
+                    <label>房間數</label>
+                    <input id="HouseRoomNumber" type="number" placeholder="輸入房間數">
+                    <label>房</label><br>
+                    <label>廳數</label>
+                    <input id="HouseHallNumber" type="number" placeholder="輸入廳數">
+                    <label>廳</label><br>
+                </p>
+
+                <p>
+                    <label for="城市">輸入房子地址</label>
+                    <select names="城市" id="HouseCityLocation">
+                        <optgroup label="北部">
+                            <option value="基隆市">基隆市</option>
+                            <option value="台北市">台北市</option>
+                            <option value="新北市">新北市</option>
+                            <option value="桃園市">桃園市</option>
+                            <option value="新竹市">新竹市</option>
+                            <option value="新竹縣">新竹縣</option>
+                            <option value="宜蘭縣">宜蘭縣</option>
+                        </optgroup>
+                        <optgroup label="中部">
+                            <option value="苗栗縣">苗栗縣</option>
+                            <option value="台中市">台中市</option>
+                            <option value="彰化縣">彰化縣</option>
+                            <option value="南投縣">南投縣</option>
+                            <option value="雲林縣">雲林縣</option>
+                        </optgroup>
+                        <optgroup label="南部">
+                            <option value="嘉義市">嘉義市</option>
+                            <option value="嘉義縣">嘉義縣</option>
+                            <option value="台南市">台南市</option>
+                            <option value="高雄市">高雄市</option>
+                            <option value="屏東縣">屏東縣</option>
+                            <option value="澎湖縣">澎湖縣</option>
+                        </optgroup>
+                        <optgroup label="東部">
+                            <option value="花蓮縣">花蓮縣</option>
+                            <option value="台東縣">台東縣</option>
+                        </optgroup>
+                        <optgroup label="離島">
+                            <option value="金門縣">金門縣</option>
+                            <option value="連江縣">連江縣</option>
+                        </optgroup>
+                    </select>
+                    <input id="HouseDistrictLocation" type="text" placeholder="輸入鄉鎮區">
+                    <input id="HouseReminderLocation" type="text" placeholder="輸入剩餘完整地址">
+                    <input id="HouseFloorInput" type="text" placeholder="輸入樓層">
+                </p>
+                <button id="HouseInputCheck">Confirm</button>
+            </p>
+            <hr>
+        </div>
+    </div>
+
+    <div class="flex">
+        <div class="item">
+            <h2>查詢</h2>
+            <p>
+                <h3>依總房價查詢(以萬為單位)</h3>
+                <input id="SearchByPriceLow" type="number" placeholder="輸入最低可接受房價"> ~
+                <input id="SearchByPriceUp" type="number" placeholder="輸入最高可接受房價"><br>
+                <button id="Search1Check">Search</button>
+                <table id="Search1Result" border="1" width="1250">
+                    <thead>
+                        <tr>
+                            <td>城市</td>
+                            <td>鄉鎮區</td>
+                            <td>詳細地址</td>
+                            <td>總價(萬)</td>
+                            <td>坪數(坪)</td>
+                            <td>屋齡</td>
+                            <td>房數</td>
+                            <td>廳數</td>
+                            <td>每坪價格(萬)</td>
+                            <td>房屋型態</td>
+                            <td>樓層</td>
+                        </tr>
+                    </thead>
+                    <tbody id="Search1Body"></tbody>
+                </table>
+            </p>
+            <p>
+                <h3>依城市、坪數、單坪價格以及屋齡查詢</h3>
+                <label for="城市2">城市</label>
+                <select names="城市2" id="Search2City">
+                    <optgroup label="北部">
+                        <option value="基隆市">基隆市</option>
+                        <option value="台北市">台北市</optioon>
+                        <option value="新北市">新北市</option>
+                        <option value="桃園市">桃園市</option>
+                        <option value="新竹市">新竹市</option>
+                        <option value="新竹縣">新竹縣</option>
+                        <option value="宜蘭縣">宜蘭縣</option>
+                    </optgroup>
+                    <optgroup label="中部">
+                        <option value="苗栗縣">苗栗縣</option>
+                        <option value="台中市">台中市</option>
+                        <option value="彰化縣">彰化縣</option>
+                        <option value="南投縣">南投縣</option>
+                        <option value="雲林縣">雲林縣</option>
+                    </optgroup>
+                    <optgroup label="南部">
+                        <option value="嘉義市">嘉義市</option>
+                        <option value="嘉義縣">嘉義縣</option>
+                        <option value="台南市">台南市</option>
+                        <option value="高雄市">高雄市</option>
+                        <option value="屏東縣">屏東縣</option>
+                        <option value="澎湖縣">澎湖縣</option>
+                    </optgroup>
+                    <optgroup label="東部">
+                        <option value="花蓮縣">花蓮縣</option>
+                        <option value="台東縣">台東縣</option>
+                    </optgroup>
+                    <optgroup label="離島">
+                        <option value="金門縣">金門縣</option>
+                        <option value="連江縣">連江縣</option>
+                    </optgroup>
+                </select><br>
+                <label>單坪數範圍</label><br>
+                <input id="Search2SizeLow" type="number" placeholder="輸入最低坪數"> ~
+                <input id="Search2SizeUp" type="number" placeholder="輸入最高坪數"><br>
+                <label>單坪價格範圍</label><br>
+                <input id="Search2PricePerSizeLow" type="number" placeholder="輸入最低可接受單價"> ~
+                <input id="Search2PricePerSizeUp" type="number" placeholder="輸入最高可接受單價"><br>
+                <label>屋齡範圍</label><br>
+                <input id="Search2AgeLow" type="number" placeholder="輸入最低屋齡"> ~
+                <input id="Search2AgeUp" type="number" placeholder="輸入最高屋齡"><br>
+                <button id="Search2Check">Search</button>
+                <table id="Search2Result" border="1" width="1250">
+                    <thead>
+                        <tr>
+                            <td>城市</td>
+                            <td>鄉鎮區</td>
+                            <td>詳細地址</td>
+                            <td>總價(萬)</td>
+                            <td>坪數(坪)</td>
+                            <td>屋齡</td>
+                            <td>房數</td>
+                            <td>廳數</td>
+                            <td>每坪價格(萬)</td>
+                            <td>房屋型態</td>
+                            <td>樓層</td>
+                        </tr>
+                    </thead>
+                    <tbody id="Search2Body"></tbody>
+                </table>
+            </p>
+
+        </div>
+    </div>
+
+    <div class="flex">
+        <div class="item">
+            <h2>修改</h2>
+            <h3 style="color: red">* 只有合約發布者可更改</h3>
+            <p>
+                <h4>帳號: </h4>
+                <label for="AccountAddress">輸入帳號</label>
+                <select names="AccountAddress" id="FixAccountAddress"></select>
+                <br>
+                <button id="FixAccountAddressConfirmBut">確認</button>
+                <button id="FixAccountAddressCancelBut">取消</button>
+            </p>
+            <p>
+                <label>第n筆資料</label><br>
+                <input id="Fix" type="number" placeholder="請輸入要修改的資料">
+            </p>
+            <p>
+                <label>房屋資訊部分</label><br>
+                <label>交易總價</label>
+                <input id="FixTotalPriceInput" type="text" placeholder="輸入交易總價"><br>
+                <label>交易總坪數</label>
+                <input id="FixTotalSizeInput" type="number" placeholder="輸入交易總坪數"><br>
+                <label>屋齡</label>
+                <input id="FixAgeInput" type="number" placeholder="輸入屋齡"><br>
+                <label>單坪價格</label>
+                <input id="FixPricePerSizeInput" type="text" placeholder="輸入單評價格"><br>
+                <label>房子類別</label>
+                <input id="FixTypeInput" type="text" placeholder="輸入房子類別"><br>
+                <label>房間數</label>
+                <input id="FixRoomNumber" type="number" placeholder="輸入房間數">
+                <label>房</label><br>
+                <label>廳數</label>
+                <input id="FixHallNumber" type="number" placeholder="輸入廳數">
+                <label>廳</label><br>
+            </p>
+
+            <p>
+                <label for="城市">地址部分</label>
+                <select names="城市" id="FixCityLocation">
+                    <optgroup label="北部">
+                        <option value="基隆市">基隆市</option>
+                        <option value="台北市">台北市</option>
+                        <option value="新北市">新北市</option>
+                        <option value="桃園市">桃園市</option>
+                        <option value="新竹市">新竹市</option>
+                        <option value="新竹縣">新竹縣</option>
+                        <option value="宜蘭縣">宜蘭縣</option>
+                    </optgroup>
+                    <optgroup label="中部">
+                        <option value="苗栗縣">苗栗縣</option>
+                        <option value="台中市">台中市</option>
+                        <option value="彰化縣">彰化縣</option>
+                        <option value="南投縣">南投縣</option>
+                        <option value="雲林縣">雲林縣</option>
+                    </optgroup>
+                    <optgroup label="南部">
+                        <option value="嘉義市">嘉義市</option>
+                        <option value="嘉義縣">嘉義縣</option>
+                        <option value="台南市">台南市</option>
+                        <option value="高雄市">高雄市</option>
+                        <option value="屏東縣">屏東縣</option>
+                        <option value="澎湖縣">澎湖縣</option>
+                    </optgroup>
+                    <optgroup label="東部">
+                        <option value="花蓮縣">花蓮縣</option>
+                        <option value="台東縣">台東縣</option>
+                    </optgroup>
+                    <optgroup label="離島">
+                        <option value="金門縣">金門縣</option>
+                        <option value="連江縣">連江縣</option>
+                    </optgroup>
+                </select>
+                <input id="FixDistrictLocation" type="text" placeholder="輸入鄉鎮區">
+                <input id="FixReminderLocation" type="text" placeholder="輸入剩餘完整地址">
+                <input id="FixFloorInput" type="text" placeholder="輸入樓層">
+            </p>
+            <button id="FixInputCheck">Confirm</button>
+        </div>
+    </div>
+
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+    <script src="javascripts/index.js"></script>
+</body>
+
+</html>
